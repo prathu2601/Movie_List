@@ -97,10 +97,11 @@ function page_numbers(){
 }
 
 function add_comment(i){
-    rate = document.getElementById('rating_id').value
-    comment = document.getElementById('comment_id').value
-    document.getElementById('comment_div').style.display="none"
-    document.getElementById('left_div').innerHTML += `
+    rate = document.getElementById(`rating_id${i}`).value
+    rate = rate > 5?5:rate<1?1:rate
+    comment = document.getElementById(`comment_id${i}`).value
+    document.getElementById(`comment_div${i}`).style.display="none"
+    document.getElementById(`left_div${i}`).innerHTML += `
         <div id="div_comment">
             <span> Your Rating : ${rate}</span><br>
             <span> Your comment:${comment}</span>
@@ -115,13 +116,13 @@ function find_id(id){
         if(element.id === id){
             rate = element.rating
             comment = element.comment
-            document.getElementById('left_div').innerHTML += `
-                <div id="div_comment">
+            document.getElementById(`left_div${id}`).innerHTML += `
+                <div id="div_comment${id}">
                     <span> Your Rating : ${rate}</span><br>
                     <span> Your comment:${comment}</span>
                 </div>
             `
-            document.getElementById('comment_div').style.display="none"
+            document.getElementById(`comment_div${id}`).style.display="none"
         }
     });
 }
@@ -133,7 +134,8 @@ function render_movies(movie_all){
         let new_div = document.createElement('div')
         new_div.id = 'movie'
         let left_div = document.createElement('div')
-        left_div.id = "left_div"
+        left_div.className = "left_div"
+        left_div.id = `left_div${movie_all[i].imdbID}`
         let new_img = document.createElement('img')
         new_img.id = "movie_img"
         new_img.src = movie_all[i].Poster
@@ -147,9 +149,9 @@ function render_movies(movie_all){
             this.parentElement.innerHTML += `
             <span>Realeased on: ${detail.Released}</span>
             <span>Plot:${detail.Plot}</span>
-            <div id="comment_div">
-                <input type="number" id="rating_id" placeholder="rating" max="5" min="1">
-                <input type="text" id="comment_id" placeholder="comment here">
+            <div class="comment_div" id="comment_div${movie_all[i].imdbID}">
+                <input type="number" class="rating" id="rating_id${movie_all[i].imdbID}" placeholder="rating" max="5" min="1">
+                <input type="text" class="comment" id="comment_id${movie_all[i].imdbID}" placeholder="comment here">
                 <button id="comment_button" onclick={add_comment("${movie_all[i].imdbID}")}>Comment</button>
             </div>
             `

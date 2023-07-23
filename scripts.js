@@ -100,7 +100,12 @@ function add_comment(i){
     rate = document.getElementById('rating_id').value
     comment = document.getElementById('comment_id').value
     document.getElementById('comment_div').style.display="none"
-    document.getElementById('div_comment').style.display="block"
+    document.getElementById('left_div').innerHTML += `
+        <div id="div_comment">
+            <span> Your Rating : ${rate}</span><br>
+            <span> Your comment:${comment}</span>
+        </div>
+    `
     movie_comment_data.push({id:i, comment:comment, rating:rate})
     localStorage.setItem('comment',JSON.stringify(movie_comment_data))
 }
@@ -108,11 +113,15 @@ function add_comment(i){
 function find_id(id){
     movie_comment_data.forEach(element => {
         if(element.id === id){
-            console.log("XXX")
             rate = element.rating
             comment = element.comment
+            document.getElementById('left_div').innerHTML += `
+                <div id="div_comment">
+                    <span> Your Rating : ${rate}</span><br>
+                    <span> Your comment:${comment}</span>
+                </div>
+            `
             document.getElementById('comment_div').style.display="none"
-            document.getElementById('div_comment').style.display="block"
         }
     });
 }
@@ -145,12 +154,6 @@ function render_movies(movie_all){
             </div>
             `
             find_id(movie_all[i].imdbID);
-            this.parentElement.innerHTML += `
-            <div id="div_comment">
-                <span> rating is ${rate}</span><br>
-                <span> ${comment}</span>
-            </div>
-            `
         }
         left_div.appendChild(title)
         new_div.appendChild(left_div)
